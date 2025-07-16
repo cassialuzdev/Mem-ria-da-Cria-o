@@ -65,9 +65,10 @@
   }
 
   .card-front {
-    background-color: #a5d6a7; /* Cor da frente da carta */
-    transform: rotateY(180deg);
-  }
+  background-color: #ffffff; /* branco */
+  transform: rotateY(180deg);
+  border-radius: 0; /* se quiser sem arredondamento, igual ao verso */
+}
 
   .card-front img {
     width: 70%;
@@ -75,13 +76,13 @@
     border-radius: 10px;
   }
 
- .card-back {
+.card-back {
   background-image: url('/memoria-da-criacao/icone.png');
+  background-size: cover; /* imagem ocupa todo o card */
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 60% 60%;
-  background-color: #e0e0e0;
-  border-radius: 15px;
+  background-color: transparent;
+  border-radius: 0; /* sem cantos arredondados */
   transform: rotateY(0deg);
 }
 
