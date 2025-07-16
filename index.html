@@ -6,7 +6,6 @@
 <title>MEMÓRIA DA CRIAÇÃO</title>
 <link rel="icon" href="icone.png" type="image/png" />
 <style>
-  /* Corpo com padding reduzido e sem margens para evitar overflow */
   body {
     font-family: 'Comic Sans MS', cursive, sans-serif;
     background: #d0f4e2;
@@ -22,7 +21,6 @@
     font-weight: bold;
   }
 
-  /* Container do jogo responsivo, max 480px para caber em celulares */
   #game {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
@@ -34,37 +32,55 @@
     box-sizing: border-box;
   }
 
-  /* Cartas responsivas e quadradas */
- .card {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  background-color: #e0e0e0; /* fundo neutro, sem imagem */
-  border-radius: 15px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  cursor: pointer;
-  position: relative;
-  user-select: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background 0.3s ease;
-  box-sizing: border-box;
-}
+  .card {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    perspective: 600px; /* Perspectiva para o efeito 3D */
+  }
 
-.card.flipped {
-  background-color: #a5d6a7; /* muda cor ao virar */
-}
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
 
-.card img {
-  width: 70%;
-  height: 70%;
-  border-radius: 10px;
-  display: none;
-}
+  .card.flipped .card-inner {
+    transform: rotateY(180deg);
+  }
 
-.card.flipped img {
-  display: block;
-}
+  .card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card-front {
+    background-color: #a5d6a7; /* Cor da frente da carta */
+    transform: rotateY(180deg);
+  }
+
+  .card-front img {
+    width: 70%;
+    height: 70%;
+    border-radius: 10px;
+  }
+
+  .card-back {
+    background: url('https://cdn-icons-png.flaticon.com/128/3608/3608933.png') center center no-repeat;
+    background-size: 60% 60%;
+    background-color: #e0e0e0; /* Fundo do verso */
+    transform: rotateY(0deg);
+  }
 
   #message {
     margin-top: 20px;
@@ -133,11 +149,22 @@
       cardElement.dataset.name = card.name;
       cardElement.dataset.index = index;
 
+      const cardInner = document.createElement('div');
+      cardInner.classList.add('card-inner');
+
+      const cardFront = document.createElement('div');
+      cardFront.classList.add('card-front');
       const img = document.createElement('img');
       img.src = card.img;
       img.alt = card.name;
+      cardFront.appendChild(img);
 
-      cardElement.appendChild(img);
+      const cardBack = document.createElement('div');
+      cardBack.classList.add('card-back');
+
+      cardInner.appendChild(cardBack);
+      cardInner.appendChild(cardFront);
+      cardElement.appendChild(cardInner);
 
       cardElement.addEventListener('click', () => flipCard(cardElement));
 
@@ -185,4 +212,3 @@
   </script>
 </body>
 </html>
-
