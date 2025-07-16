@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MEMÓRIA DA CRIAÇÃO</title>
+<link rel="icon" href="icone.png" type="image/png" />
+<style>
+  body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background: #d0f4e2;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+  }
+
+  h1 {
+    color: #2e7d32;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 24px;
+  }
+
+  #game {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 12px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 10px;
+  }
+
+  .card {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: url('https://cdn-icons-png.flaticon.com/128/3608/3608933.png') center center no-repeat;
+    background-size: 60%;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s ease;
+  }
+
+  .card img {
+    width: 70%;
+    height: 70%;
+    border-radius: 10px;
+    display: none;
+  }
+
+  .card.flipped {
+    background: #a5d6a7;
+  }
+
+  .card.flipped img {
+    display: block;
+  }
+
+  #message {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #388e3c;
+    min-height: 40px;
+    font-weight: bold;
+    padding: 10px;
+  }
+
+  button {
+    margin-top: 20px;
+    background: #4caf50;
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #388e3c;
+  }
+</style>
+</head>
+<body>
+  <h1>MEMÓRIA DA CRIAÇÃO</h1>
+  <div id="game"></div>
+  <div id="message"></div>
+  <button onclick="startGame()">Reiniciar Jogo</button>
+
+  <script>
+    const cardsData = [
+      {name: 'CACHORRO', img: 'https://cdn-icons-png.flaticon.com/128/8277/8277459.png', message: 'CACHORRO: DEUS AMA TODAS AS SUAS CRIATURAS!'},
+      {name: 'SOL', img: 'https://cdn-icons-png.flaticon.com/128/3787/3787874.png', message: 'SOL: O SOL BRILHA PARA ILUMINAR A CRIAÇÃO DE DEUS.'},
+      {name: 'GATO', img: 'https://cdn-icons-png.flaticon.com/128/1818/1818298.png', message: 'GATO: DEUS CUIDA ATÉ DOS PEQUENOS GATINHOS.'},
+      {name: 'ESTRELA DO MAR', img: 'https://cdn-icons-png.flaticon.com/128/7716/7716053.png', message: 'ESTRELA DO MAR: AS ESTRELAS DO MAR SÃO PARTE DA CRIAÇÃO DE DEUS.'},
+      {name: 'FLOR', img: 'https://cdn-icons-png.flaticon.com/128/2545/2545551.png', message: 'FLOR: CADA FLOR É UMA OBRA LINDA DO CRIADOR.'},
+      {name: 'VACA', img: 'https://cdn-icons-png.flaticon.com/128/1998/1998610.png', message: 'VACA: AS VACAS NOS LEMBRAM DA PROVISÃO DE DEUS.'},
+      {name: 'GALINHA', img: 'https://cdn-icons-png.flaticon.com/128/2002/2002616.png', message: 'GALINHA: DEUS CUIDA DOS PÁSSAROS E DAS GALINHAS.'},
+      {name: 'JOANINHA', img: 'https://cdn-icons-png.flaticon.com/128/10576/10576415.png', message: 'JOANINHA: ATÉ A JOANINHA TEM SEU LUGAR NA CRIAÇÃO.'},
+      {name: 'MENINA', img: 'https://cdn-icons-png.flaticon.com/128/3404/3404161.png', message: 'MENINA: DEUS AMA TODAS AS CRIANÇAS.'},
+      {name: 'MENINO', img: 'https://cdn-icons-png.flaticon.com/128/145/145867.png', message: 'MENINO: SOMOS PRECIOSOS PARA O SENHOR.'},
+      {name: 'PLANETA TERRA', img: 'https://cdn-icons-png.flaticon.com/128/17217/17217861.png', message: 'PLANETA TERRA: DEUS CRIOU A TERRA PARA TODOS NÓS.'},
+      {name: 'BORBOLETA', img: 'https://cdn-icons-png.flaticon.com/128/8420/8420366.png', message: 'BORBOLETA: A BORBOLETA REPRESENTA TRANSFORMAÇÃO EM DEUS.'},
+    ];
+
+    let gameCards = [];
+    let flippedCards = [];
+    let matchedPairs = 0;
+    const game = document.getElementById('game');
+    const message = document.getElementById('message');
+
+    function shuffle(array) {
+      for(let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function createCardElement(card, index) {
+      const cardElement = document.createElement('div');
+      cardElement.classList.add('card');
+      cardElement.dataset.name = card.name;
+      cardElement.dataset.index = index;
+
+      const img = document.createElement('img');
+      img.src = card.img;
+      img.alt = card.name;
+
+      cardElement.appendChild(img);
+
+      cardElement.addEventListener('click', () => flipCard(cardElement));
+
+      return cardElement;
+    }
+
+    function flipCard(cardElement) {
+      if (flippedCards.length >= 2 || cardElement.classList.contains('flipped')) return;
+
+      cardElement.classList.add('flipped');
+      flippedCards.push(cardElement);
+
+      if (flippedCards.length === 2) {
+        const [first, second] = flippedCards;
+        if (first.dataset.name === second.dataset.name) {
+          matchedPairs++;
+          message.textContent = cardsData.find(c => c.name === first.dataset.name).message;
+          flippedCards = [];
+
+          if (matchedPairs === cardsData.length) {
+            message.textContent = 'PARABÉNS! VOCÊ ENCONTROU TODOS OS PARES!';
+          }
+        } else {
+          setTimeout(() => {
+            first.classList.remove('flipped');
+            second.classList.remove('flipped');
+            flippedCards = [];
+            message.textContent = '';
+          }, 1000);
+        }
+      }
+    }
+
+    function startGame() {
+      matchedPairs = 0;
+      message.textContent = '';
+      gameCards = shuffle([...cardsData, ...cardsData]);
+      game.innerHTML = '';
+      gameCards.forEach((card, i) => {
+        game.appendChild(createCardElement(card, i));
+      });
+    }
+
+    startGame();
+  </script>
+</body>
+</html>
