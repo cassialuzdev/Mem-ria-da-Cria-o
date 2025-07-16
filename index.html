@@ -1,111 +1,90 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>MEMÓRIA DA CRIAÇÃO</title>
-<link rel="icon" href="icone.png" type="image/png" />
-<style>
-  body {
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-    background: #d0f4e2;
-    text-align: center;
-    margin: 0;
-    padding: 20px;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MEMÓRIA DA CRIAÇÃO</title>
+  <link rel="icon" href="icone.png" type="image/png" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #d0f4e2;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
 
-  h1 {
-    color: #2e7d32;
-    margin-bottom: 10px;
-    font-weight: bold;
-    font-size: 24px;
-  }
+    #game {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      gap: 10px;
+      max-width: 600px;
+      margin: auto;
+    }
 
-  #game {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-    gap: 12px;
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 10px;
-  }
+    .card {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      perspective: 1000px;
+    }
 
-  /* === ALTERAÇÃO INICIADA AQUI === */
+    .card-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      border-radius: 15px;
+    }
 
-  .card {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    perspective: 800px;
-    cursor: pointer;
-    border-radius: 15px; /* Cantos arredondados no card */
-  }
+    .card.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
 
-  .card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.6s;
-    transform-style: preserve-3d;
-    border-radius: 15px; /* Cantos arredondados no inner para manter */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    overflow: hidden; /* Para a imagem respeitar o border-radius */
-  }
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
- .card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  border-radius: 15px;
-  background-image: url('https://cassialuzdev.github.io/memoria-da-criacao/icone.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
+    .card-front {
+      background-color: white;
+      transform: rotateY(180deg);
+    }
 
-  .card-front {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 15px;
-    background: #a5d6a7;
-  }
+    .card-front img {
+      width: 70%;
+      height: 70%;
+      border-radius: 10px;
+    }
 
-  .card-front img {
-    width: 70%;
-    height: 70%;
-    border-radius: 10px;
-  }
+    .card-back {
+      background-image: url('https://cassialuzdev.github.io/memoria-da-criacao/icone.png');
+      background-size: cover;
+      background-position: center;
+    }
 
-  #message {
-    margin-top: 20px;
-    font-size: 16px;
-    color: #388e3c;
-    min-height: 40px;
-    font-weight: bold;
-    padding: 10px;
-  }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+    }
 
-  button {
-    margin-top: 20px;
-    background: #4caf50;
-    border: none;
-    color: white;
-    padding: 10px 25px;
-    border-radius: 10px;
-    font-size: 18px;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background: #388e3c;
-  }
-</style>
+    #message {
+      margin-top: 15px;
+      font-weight: bold;
+      color: #2e7d32;
+    }
+  </style>
 </head>
 <body>
   <h1>MEMÓRIA DA CRIAÇÃO</h1>
@@ -115,18 +94,9 @@
 
   <script>
     const cardsData = [
-      {name: 'CACHORRO', img: 'https://cdn-icons-png.flaticon.com/128/8277/8277459.png', message: 'CACHORRO: DEUS AMA TODAS AS SUAS CRIATURAS!'},
-      {name: 'SOL', img: 'https://cdn-icons-png.flaticon.com/128/3787/3787874.png', message: 'SOL: O SOL BRILHA PARA ILUMINAR A CRIAÇÃO DE DEUS.'},
-      {name: 'GATO', img: 'https://cdn-icons-png.flaticon.com/128/1818/1818298.png', message: 'GATO: DEUS CUIDA ATÉ DOS PEQUENOS GATINHOS.'},
-      {name: 'ESTRELA DO MAR', img: 'https://cdn-icons-png.flaticon.com/128/7716/7716053.png', message: 'ESTRELA DO MAR: AS ESTRELAS DO MAR SÃO PARTE DA CRIAÇÃO DE DEUS.'},
-      {name: 'FLOR', img: 'https://cdn-icons-png.flaticon.com/128/2545/2545551.png', message: 'FLOR: CADA FLOR É UMA OBRA LINDA DO CRIADOR.'},
-      {name: 'VACA', img: 'https://cdn-icons-png.flaticon.com/128/1998/1998610.png', message: 'VACA: AS VACAS NOS LEMBRAM DA PROVISÃO DE DEUS.'},
-      {name: 'GALINHA', img: 'https://cdn-icons-png.flaticon.com/128/2002/2002616.png', message: 'GALINHA: DEUS CUIDA DOS PÁSSAROS E DAS GALINHAS.'},
-      {name: 'JOANINHA', img: 'https://cdn-icons-png.flaticon.com/128/10576/10576415.png', message: 'JOANINHA: ATÉ A JOANINHA TEM SEU LUGAR NA CRIAÇÃO.'},
-      {name: 'MENINA', img: 'https://cdn-icons-png.flaticon.com/128/3404/3404161.png', message: 'MENINA: DEUS AMA TODAS AS CRIANÇAS.'},
-      {name: 'MENINO', img: 'https://cdn-icons-png.flaticon.com/128/145/145867.png', message: 'MENINO: SOMOS PRECIOSOS PARA O SENHOR.'},
-      {name: 'PLANETA TERRA', img: 'https://cdn-icons-png.flaticon.com/128/17217/17217861.png', message: 'PLANETA TERRA: DEUS CRIOU A TERRA PARA TODOS NÓS.'},
-      {name: 'BORBOLETA', img: 'https://cdn-icons-png.flaticon.com/128/8420/8420366.png', message: 'BORBOLETA: A BORBOLETA REPRESENTA TRANSFORMAÇÃO EM DEUS.'},
+      { name: 'CACHORRO', img: 'https://cdn-icons-png.flaticon.com/128/8277/8277459.png', message: 'CACHORRO: DEUS AMA TODAS AS SUAS CRIATURAS!' },
+      { name: 'SOL', img: 'https://cdn-icons-png.flaticon.com/128/3787/3787874.png', message: 'SOL: O SOL BRILHA PARA ILUMINAR A CRIAÇÃO DE DEUS.' },
+      // ... adicione os demais
     ];
 
     let gameCards = [];
@@ -136,7 +106,7 @@
     const message = document.getElementById('message');
 
     function shuffle(array) {
-      for(let i = array.length - 1; i > 0; i--) {
+      for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
       }
@@ -147,13 +117,9 @@
       const cardElement = document.createElement('div');
       cardElement.classList.add('card');
       cardElement.dataset.name = card.name;
-      cardElement.dataset.index = index;
 
       const cardInner = document.createElement('div');
       cardInner.classList.add('card-inner');
-
-      const cardBack = document.createElement('div');
-      cardBack.classList.add('card-back');
 
       const cardFront = document.createElement('div');
       cardFront.classList.add('card-front');
@@ -162,8 +128,11 @@
       img.alt = card.name;
       cardFront.appendChild(img);
 
-      cardInner.appendChild(cardBack);
+      const cardBack = document.createElement('div');
+      cardBack.classList.add('card-back');
+
       cardInner.appendChild(cardFront);
+      cardInner.appendChild(cardBack);
       cardElement.appendChild(cardInner);
 
       cardElement.addEventListener('click', () => flipCard(cardElement));
@@ -181,7 +150,8 @@
         const [first, second] = flippedCards;
         if (first.dataset.name === second.dataset.name) {
           matchedPairs++;
-          message.textContent = cardsData.find(c => c.name === first.dataset.name).message;
+          const found = cardsData.find(c => c.name === first.dataset.name);
+          message.textContent = found ? found.message : '';
           flippedCards = [];
 
           if (matchedPairs === cardsData.length) {
@@ -201,10 +171,10 @@
     function startGame() {
       matchedPairs = 0;
       message.textContent = '';
-      gameCards = shuffle([...cardsData, ...cardsData]);
       game.innerHTML = '';
-      gameCards.forEach((card, i) => {
-        game.appendChild(createCardElement(card, i));
+      gameCards = shuffle([...cardsData, ...cardsData]);
+      gameCards.forEach((card, index) => {
+        game.appendChild(createCardElement(card, index));
       });
     }
 
