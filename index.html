@@ -4,60 +4,69 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>MEMÓRIA DA CRIAÇÃO</title>
-  <link rel="icon" href="icone.png" type="image/png" />
+<link rel="icon" href="icone.png" type="image/png" />
 <style>
+  /* Corpo com padding reduzido e sem margens para evitar overflow */
   body {
     font-family: 'Comic Sans MS', cursive, sans-serif;
     background: #d0f4e2;
     text-align: center;
     margin: 0;
-    padding: 20px;
+    padding: 0 10px;
+    overflow-x: hidden;
   }
+
   h1 {
     color: #2e7d32;
     margin-bottom: 10px;
     font-weight: bold;
   }
- #game {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  gap: 10px;
-  width: 100%;
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 10px;
-}
 
-.card {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  background: url('https://cdn-icons-png.flaticon.com/128/3608/3608933.png') center center no-repeat;
-  background-size: 60% 60%;
-  border-radius: 15px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  cursor: pointer;
-  position: relative;
-  user-select: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background 0.3s ease;
-}
-
-.card img {
-  width: 70%;
-  height: 70%;
-  border-radius: 10px;
-  display: none;
-}
-
+  /* Container do jogo responsivo, max 480px para caber em celulares */
+  #game {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    gap: 8px;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 10px 0;
+    box-sizing: border-box;
   }
+
+  /* Cartas responsivas e quadradas */
+  .card {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: url('https://cdn-icons-png.flaticon.com/128/3608/3608933.png') center center no-repeat;
+    background-size: 60% 60%;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s ease;
+    box-sizing: border-box;
+  }
+
+  .card img {
+    width: 70%;
+    height: 70%;
+    border-radius: 10px;
+    display: none;
+  }
+
   .card.flipped {
     background: #a5d6a7;
   }
+
   .card.flipped img {
     display: block;
   }
+
   #message {
     margin-top: 20px;
     font-size: 18px;
@@ -65,6 +74,7 @@
     min-height: 40px;
     font-weight: bold;
   }
+
   button {
     margin-top: 20px;
     background: #4caf50;
@@ -74,7 +84,9 @@
     border-radius: 10px;
     font-size: 18px;
     cursor: pointer;
+    transition: background 0.3s ease;
   }
+
   button:hover {
     background: #388e3c;
   }
@@ -174,3 +186,4 @@
   </script>
 </body>
 </html>
+
