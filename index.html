@@ -33,20 +33,20 @@
     .card {
       width: 100%;
       aspect-ratio: 1 / 1;
-      perspective: 600px;
+      perspective: 800px;
     }
 
     .card-inner {
-      position: relative;
       width: 100%;
       height: 100%;
       transition: transform 0.6s;
       transform-style: preserve-3d;
+      position: relative;
       border-radius: 15px;
       overflow: hidden;
     }
 
-    .card.flipped .card-inner {
+    .card-inner.flipped {
       transform: rotateY(180deg);
     }
 
@@ -69,14 +69,15 @@
     .card-front img {
       width: 70%;
       height: 70%;
+      object-fit: contain;
       border-radius: 10px;
     }
 
     .card-back {
-      background-image: url('/memoria-da-criacao/icone.png');
-      background-repeat: no-repeat;
-      background-position: center;
+      background-image: url('icone.png');
       background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       background-color: transparent;
     }
 
@@ -149,15 +150,15 @@
       const cardInner = document.createElement('div');
       cardInner.classList.add('card-inner');
 
+      const cardBack = document.createElement('div');
+      cardBack.classList.add('card-back');
+
       const cardFront = document.createElement('div');
       cardFront.classList.add('card-front');
       const img = document.createElement('img');
       img.src = card.img;
       img.alt = card.name;
       cardFront.appendChild(img);
-
-      const cardBack = document.createElement('div');
-      cardBack.classList.add('card-back');
 
       cardInner.appendChild(cardBack);
       cardInner.appendChild(cardFront);
@@ -169,16 +170,21 @@
     }
 
     function flipCard(cardElement) {
-      if (flippedCards.length >= 2 || cardElement.classList.contains('flipped')) return;
+      const cardInner = cardElement.querySelector('.card-inner');
 
-      cardElement.classList.add('flipped');
+      if (flippedCards.length >= 2 || cardInner.classList.contains('flipped')) return;
+
+      cardInner.classList.add('flipped');
       flippedCards.push(cardElement);
 
       if (flippedCards.length === 2) {
         const [first, second] = flippedCards;
-        if (first.dataset.name === second.dataset.name) {
+        const firstName = first.dataset.name;
+        const secondName = second.dataset.name;
+
+        if (firstName === secondName) {
           matchedPairs++;
-          message.textContent = cardsData.find(c => c.name === first.dataset.name).message;
+          message.textContent = cardsData.find(c => c.name === firstName).message;
           flippedCards = [];
 
           if (matchedPairs === cardsData.length) {
@@ -186,8 +192,8 @@
           }
         } else {
           setTimeout(() => {
-            first.classList.remove('flipped');
-            second.classList.remove('flipped');
+            first.querySelector('.card-inner').classList.remove('flipped');
+            second.querySelector('.card-inner').classList.remove('flipped');
             flippedCards = [];
             message.textContent = '';
           }, 1000);
