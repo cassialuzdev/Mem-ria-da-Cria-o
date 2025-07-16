@@ -35,37 +35,36 @@
   }
 
   /* Cartas responsivas e quadradas */
-  .card {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    background: url('https://cdn-icons-png.flaticon.com/128/3608/3608933.png') center center no-repeat;
-    background-size: 60% 60%;
-    border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    cursor: pointer;
-    position: relative;
-    user-select: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: background 0.3s ease;
-    box-sizing: border-box;
-  }
+ .card {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: #e0e0e0; /* fundo neutro, sem imagem */
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.3s ease;
+  box-sizing: border-box;
+}
 
-  .card img {
-    width: 70%;
-    height: 70%;
-    border-radius: 10px;
-    display: none;
-  }
+.card.flipped {
+  background-color: #a5d6a7; /* muda cor ao virar */
+}
 
-  .card.flipped {
-    background: #a5d6a7;
-  }
+.card img {
+  width: 70%;
+  height: 70%;
+  border-radius: 10px;
+  display: none;
+}
 
-  .card.flipped img {
-    display: block;
-  }
+.card.flipped img {
+  display: block;
+}
 
   #message {
     margin-top: 20px;
