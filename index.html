@@ -18,35 +18,39 @@
     margin-bottom: 10px;
     font-weight: bold;
   }
-  #game {
+ #game {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-  gap: 12px;
-  max-width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 10px;
+  width: 100%;
+  max-width: 640px;
   margin: 0 auto;
   padding: 10px;
-  justify-items: center;
 }
-  .card {
-    width: 110px;
-    height: 110px;
-    background: url('https://cdn-icons-png.flaticon.com/128/3608/3608933.png') center center no-repeat;
-    background-size: 70px 70px;
-    border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    cursor: pointer;
-    position: relative;
-    user-select: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: background 0.3s ease;
-  }
-  .card img {
-    width: 80px;
-    height: 80px;
-    border-radius: 10px;
-    display: none;
+
+.card {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: url('https://cdn-icons-png.flaticon.com/128/3608/3608933.png') center center no-repeat;
+  background-size: 60% 60%;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.3s ease;
+}
+
+.card img {
+  width: 70%;
+  height: 70%;
+  border-radius: 10px;
+  display: none;
+}
+
   }
   .card.flipped {
     background: #a5d6a7;
